@@ -30,7 +30,10 @@ namespace CoreRESTAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Registro>> GetRegistro(int id)
         {
-            var registro = await _context.Registros.FindAsync(id);
+            //var registro = await _context.Registros.FindAsync(id);
+
+            var registro = await _context.Registros.Include(c => c.Cliente)
+                                                    .FirstOrDefaultAsync(r => r.RegistroId == id);
 
             if (registro == null)
             {
